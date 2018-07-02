@@ -1,0 +1,3 @@
+#!/bin/bash
+
+for i in `fastboot devices | grep fastboot | awk '{print $1}'`; do bash flashTarget.sh $i & done

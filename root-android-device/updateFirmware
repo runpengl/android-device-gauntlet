@@ -1,13 +1,11 @@
 #!/bin/bash
 
-adb reboot bootloader
+sudo fastboot oem unlock;
+sudo fastboot oem unlock;
+sudo fastboot flash boot xe23/boot.img;
+sudo fastboot flash recovery xe23/recovery.img;
+sudo fastboot flash system xe23/system.img;
+sudo fastboot oem lock;
+sudo fastboot reboot;
 
-sudo fastboot oem unlock
-sudo fastboot oem unlock
-sudo fastboot flash boot xe23/boot.img
-sudo fastboot flash recovery xe23/recovery.img
-sudo fastboot flash system xe23/system.img
-sudo fastboot oem lock
-sudo fastboot reboot
-
-echo "Done"
+echo "Done";

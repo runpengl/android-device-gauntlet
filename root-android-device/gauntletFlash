@@ -1,7 +1,15 @@
 #!/bin/bash
 
-for i in `fastboot devices | grep fastboot | awk '{print $1}'`; do echo $i;
+INDEX=0
+for i in `fastboot devices | grep fastboot | awk '{print $1}'`; do
+let INDEX=${INDEX}+1
+echo Device[${INDEX}] $i
+done
 
-read -p "[Press enter to continue]"
+read -p "[Press ENTER to continue]"
 
-for i in `fastboot devices | grep fastboot | awk '{print $1}'`; do bash flashTarget.sh $i & done
+INDEX=0
+for i in `fastboot devices | grep fastboot | awk '{print $1}'`; do
+let INDEX=${INDEX}+1
+bash flashTarget.sh $i $INDEX &
+done

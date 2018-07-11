@@ -1,3 +1,15 @@
 #!/bin/bash
 
-for i in `adb devices 2>&1 | grep -v -e daemon -v -e devices | awk '{print $1}'`; do bash installTarget.sh $i & done
+INDEX=0
+for i in `adb devices 2>&1 | grep -v -e daemon -v -e devices | awk '{print $1}'`; do
+let INDEX=${INDEX}+1
+echo Device[${INDEX}] $i
+done
+
+read -p "Press [ENTER] to continue"
+
+INDEX=0
+for i in `adb devices 2>&1 | grep -v -e daemon -v -e devices | awk '{print $1}'`; do 
+let INDEX=${INDEX}+1
+bash installTarget.sh $i $INDEX & 
+done

@@ -1,15 +1,20 @@
 #!/bin/bash
 
 INDEX=0
-for i in `adb devices 2>&1 | grep -v -e daemon -v -e devices | awk '{print $1}'`; do
+for device in `adb devices 2>&1 | grep -v -e daemon -v -e devices | awk '{print $1}'`; do
 let INDEX=${INDEX}+1
-echo Device[${INDEX}] $i
+echo Device[${INDEX}] $device
 done
 
-read -p "Press [ENTER] to continue"
+for f in "$@"; do
+echo APK file: $f;
+done;
+
+read -p "Press [ENTER] to continue installation"
 
 INDEX=0
-for i in `adb devices 2>&1 | grep -v -e daemon -v -e devices | awk '{print $1}'`; do 
+for device in `adb devices 2>&1 | grep -v -e daemon -v -e devices | awk '{print $1}'`; do 
 let INDEX=${INDEX}+1
-bash installTarget.sh $i $INDEX & 
+echo installTarget.sh $device $INDEX $@\\n
+bash installTarget.sh $device $INDEX $@ &
 done

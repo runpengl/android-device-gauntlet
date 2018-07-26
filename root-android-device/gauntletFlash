@@ -1,7 +1,7 @@
 #!/bin/bash
 
 INDEX=0
-for i in `fastboot devices | grep fastboot | awk '{print $1}'`; do
+for i in `sudo fastboot devices | grep fastboot | awk '{print $1}'`; do
 let INDEX=${INDEX}+1
 echo Device[${INDEX}] $i
 done
@@ -11,7 +11,7 @@ ls $1*.img
 read -p "[Press ENTER to flash $INDEX devices]"
 
 INDEX=0
-for i in `fastboot devices | grep fastboot | awk '{print $1}'`; do
+for i in `sudo fastboot devices | grep fastboot | awk '{print $1}'`; do
 let INDEX=${INDEX}+1
 bash flashTarget.sh $i $INDEX $1 &
 done

@@ -1,0 +1,17 @@
+INDEX=0
+for device in `adb devices 2>&1 | grep -v -e daemon -v -e devices | awk '{print $1}'`; do
+let INDEX=${INDEX}+1
+echo Device[${INDEX}] $device
+done
+
+for f in "$@"; do
+echo System App: $f;
+done;
+
+read -p "Press [ENTER] to mount system apps onto devices"
+
+INDEX=0
+for device in `adb devices 2>&1 | grep -v -e daemon -v -e devices | awk '{print $1}'`; do 
+let INDEX=${INDEX}+1
+bash mountSystemAppTarget.sh $device $INDEX $@ &
+done

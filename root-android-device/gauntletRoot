@@ -1,5 +1,5 @@
 INDEX=0
-for device in `adb devices 2>&1 | grep -v -e daemon -v -e devices | awk '{print $1}'`; do
+for device in `fastboot devices 2>&1 | grep -v -e daemon -v -e devices | awk '{print $1}'`; do
 let INDEX=${INDEX}+1
 echo Device[${INDEX}] $device
 done
@@ -8,7 +8,7 @@ echo "Boot image: $1"
 read -p "Press [ENTER] to root devices"
 
 INDEX=0
-for device in `adb devices 2>&1 | grep -v -e daemon -v -e devices | awk '{print $1}'`; do 
+for device in `fastboot devices 2>&1 | grep -v -e daemon -v -e devices | awk '{print $1}'`; do 
 let INDEX=${INDEX}+1
 sudo bash rootTarget.sh $device $INDEX $1 &
 done

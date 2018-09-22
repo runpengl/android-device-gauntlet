@@ -1,0 +1,61 @@
+#!/bin/bash
+# Script adb+
+# Run any command adb provides on all your currently connected devices,
+# Or prompt to select one device
+
+showHelp() {
+	echo "Usage: adb+ [-a] <command>"
+	echo "       -h: show help"
+	echo "       -a: run command on all device"
+	echo "  command: normal adb commands"
+	echo
+	echo "Examples:"
+	echo "  adb+ -a install apidemo.apk"
+	echo "  adb+ shell"
+}
+
+if [[ $1 = '-h' ]]; then
+	showHelp
+	exit
+fi
+
+while read line
+do
+	if [ ! "$line" = "" ] && [ `echo $line | awk '{print $2}'` = "device" ]
+	then
+		device=`echo $line | awk '{print $1 " - " $5} '`
+		DEVICES+=("${device}")
+	fi
+done < <(adb devices -l)
+
+#echo "${DEVICES[@]}"
+
+if [[ ${#DEVICES[@]} -lt 3 ]]; then
+	adb $@
+	exit
+fi
+
+if [[ $1 = '-a' ]]; then
+	shift
+	for dev in "${DEVICES[@]}"
+	do
+		device=`echo $dev | awk '{print $1}'`
+		adb -s $device $@
+	done
+	exit
+fi
+
+# select
+DEVICES+=('all')
+PS3="Enter number to select: "
+select dev in "${DEVICES[@]}"
+do
+case "$dev" in
+	'all')
+		$0 -a $*
+		break;;
+	*)
+		adb -s `echo $dev | awk '{print $1}'` $@
+		break;;
+esac
+done

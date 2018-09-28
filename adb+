@@ -40,7 +40,7 @@ if [[ $1 = '-a' ]]; then
 	for dev in "${DEVICES[@]}"
 	do
 		device=`echo $dev | awk '{print $1}'`
-		adb -s $device $@
+		adb -s $device $@ &
 	done
 	exit
 fi

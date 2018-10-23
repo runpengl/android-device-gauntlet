@@ -1,6 +1,6 @@
-# root-android-device
+# android-device-gauntlet
 
-## Prerequisties
+## Prerequisites
 
 * Use Linux or OSX machine
 * Install `adb` and `fastboot` for command line and add to path

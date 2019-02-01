@@ -1,13 +1,15 @@
+#!/bin/bash
+
 INDEX=0
 for device in `adb devices 2>&1 | grep -v -e daemon -v -e devices | awk '{print $1}'`; do
 let INDEX=${INDEX}+1
 echo Device[${INDEX}] $device
 done
 
-read -p "Press [ENTER] to factory reset all devices"
+read -p "Press [ENTER] to continue"
 
 INDEX=0
 for device in `adb devices 2>&1 | grep -v -e daemon -v -e devices | awk '{print $1}'`; do 
 let INDEX=${INDEX}+1
-bash factoryResetTarget.sh $device $INDEX &
+bash shell-scripts/startActivityTarget.sh $device $INDEX $@ &
 done
